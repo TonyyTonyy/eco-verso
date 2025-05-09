@@ -1,103 +1,145 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { InteractiveBanner } from "@/components/interactive-banner"
+import { MissionCard } from "@/components/mission-card"
+import { DesafioSemanal } from "@/components/desafio-semanal"
+import Link from "next/link"
+import { ArrowRight, Leaf, Globe, Lightbulb } from "lucide-react"
+import { ArticleCard } from "@/components/article-card"
 
 export default function Home() {
+  const articles = [
+    {
+      title: "10 maneiras simples de reduzir a sua pegada de carbono",
+      excerpt:
+        "Descubra ações práticas para diminuir sua pegada de carbono, desde mudanças nos hábitos alimentares até escolhas financeiras conscientes.",
+      image: "https://images.unsplash.com/photo-1506806732259-39c2d0268443",
+      date: "20 de agosto de 2020",
+      author: "Extinction Rebellion",
+      readTime: "5 min de leitura",
+      tags: ["Vida Sustentável", "Ação Climática"],
+      url: "https://rebellion.global/pt/blog/2020/08/20/reduce-your-carbon-footprint/",
+    },
+    {
+      title: "Perda de biodiversidade: causas, consequências e soluções",
+      excerpt:
+        "A perda de biodiversidade ameaça ecossistemas e a sobrevivência humana. Entenda suas causas e como mitigá-la.",
+      image: "https://www.iberdrola.com/documents/20125/41125/PerdidaBiodiversidad_746x419.jpg/beae1e3d-93ac-392c-277e-13f10ea30c6b?t=1628158320684",
+      date: "Data não especificada",
+      author: "Iberdrola",
+      readTime: "8 min de leitura",
+      tags: ["Biodiversidade", "Conservação"],
+      url: "https://www.iberdrola.com/sustentabilidade/perda-de-biodiversidade",
+    },
+  ]
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="container mx-auto px-4 py-8">
+      <section className="mb-16">
+        <InteractiveBanner />
+      </section>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <section className="mb-16">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold mb-4">Nossa Missão & Visão</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Descubra como o EcoVerso está trabalhando para criar um futuro mais sustentável através da educação e
+            experiências interativas.
+          </p>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <MissionCard
+            icon={<Leaf className="h-8 w-8 text-green-500" />}
+            title="Educação Ambiental"
+            description="Acreditamos que a educação é a base para a mudança. Nosso conteúdo interativo torna o aprendizado sobre questões ambientais envolvente e acessível."
+            delay={0.1}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
+          <MissionCard
+            icon={<Globe className="h-8 w-8 text-blue-500" />}
+            title="Conscientização Global"
+            description="Os desafios ambientais são de natureza global. Nosso objetivo é promover um senso de cidadania global e responsabilidade compartilhada."
+            delay={0.2}
           />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
+          <MissionCard
+            icon={<Lightbulb className="h-8 w-8 text-yellow-500" />}
+            title="Soluções Sustentáveis"
+            description="Além da conscientização, fornecemos soluções práticas e atividades que indivíduos e comunidades podem implementar em seu dia a dia."
+            delay={0.3}
           />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        </div>
+      </section>
+
+      <section className="mb-16">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-4">Desafio Semanal</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Teste seus conhecimentos sobre sustentabilidade e ganhe pontos!
+          </p>
+        </div>
+        <DesafioSemanal />
+      </section>
+
+      <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <Card>
+          <CardHeader>
+            <CardTitle>Recursos Educacionais</CardTitle>
+            <CardDescription>Vídeos, infográficos e materiais para download</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Explore nossa coleção de recursos educacionais projetados para ajudar você a aprender mais sobre
+              conservação ambiental e sustentabilidade.
+            </p>
+            <Link href="/recursos">
+              <Button variant="outline">Explorar Recursos</Button>
+            </Link>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader>
+            <CardTitle>Gincanas Ecológicas</CardTitle>
+            <CardDescription>Atividades interativas para escolas e comunidades</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Descubra instruções passo a passo para jogos e atividades que ensinam sobre tópicos ecológicos
+              específicos.
+            </p>
+            <Link href="/gincanas">
+              <Button variant="outline">Ver Gincanas</Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="text-center mb-16">
+        <h2 className="text-3xl font-bold mb-4">Artigos Recentes</h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
+          Mantenha-se atualizado com as últimas notícias e dicas sobre vida sustentável.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {articles.map((article, index) => (
+              <ArticleCard
+                key={index}
+                title={article.title}
+                excerpt={article.excerpt}
+                image={article.image}
+                date={article.date}
+                author={article.author}
+                readTime={article.readTime}
+                tags={article.tags}
+                url={article.url}
+              />
+            ))}
+        </div>
+        <div className="mt-8">
+          <Link href="/articles">
+            <Button>
+              Ver Todos os Artigos <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </Link>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
