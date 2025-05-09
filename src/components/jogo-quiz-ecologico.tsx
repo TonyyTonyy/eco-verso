@@ -10,6 +10,7 @@ import {
   ArrowRight,
   RotateCcw,
 } from "lucide-react";
+import { toast } from "sonner";
 
 export default function JogoQuizEcologico() {
   const [gameState, setGameState] = useState({
@@ -606,8 +607,70 @@ export default function JogoQuizEcologico() {
       return "Sua cidade sobreviveu, mas ainda há muito a melhorar no equilíbrio entre economia, ambiente e sociedade.";
     }
   }
+  function mostrarToastMudancas(gameState: any, novosValores:any) {
+  const diferencas = [
+    {
+      label: "Economia",
+      diff: novosValores.economiaPontos - gameState.economiaPontos
+    },
+    {
+      label: "Ambiente",
+      diff: novosValores.ambientePontos - gameState.ambientePontos
+    },
+    {
+      label: "Social",
+      diff: novosValores.socialPontos - gameState.socialPontos
+    },
+    {
+      label: "População",
+      diff: novosValores.populacao - gameState.populacao
+    },
+    {
+      label: "Sustentabilidade",
+      diff: novosValores.sustentabilidade - gameState.sustentabilidade
+    }
+  ];
+toast.custom((t: any) => (
+  <div
+    className={`max-w-sm w-full bg-white dark:bg-gray-900 shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 dark:ring-white/10 p-4 ${
+      t.visible ? 'animate-enter' : 'animate-leave'
+    }`}
+  >
+    <div className="flex flex-col space-y-2">
+      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Mudanças</p>
+      <ul className="space-y-1">
+        {diferencas.map(({ label, diff }) => (
+          <li key={label} className="flex items-center text-sm text-gray-700 dark:text-gray-300">
+            <span className="flex-1">{label}:</span>
+            <span
+              className={`ml-8 font-semibold ${
+                diff > 0
+                  ? 'text-green-600 dark:text-green-400'
+                  : diff < 0
+                  ? 'text-red-600 dark:text-red-400'
+                  : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              {diff > 0 && '+'}
+              {diff}
+            </span>
+          </li>
+        ))}
+      </ul>
+      <button
+        onClick={() => toast.dismiss(t.id)}
+        className="self-end text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 transition"
+      >
+        ✕
+      </button>
+    </div>
+  </div>
+));
+
+}
 
   function tomarDecisao(opcao:any) {
+    const antigos = { ...gameState };
     const novosValores = {
       ...gameState,
       ano: gameState.ano + 1,
@@ -639,6 +702,7 @@ export default function JogoQuizEcologico() {
     novosValores.sustentabilidade = calcularSustentabilidade(novosValores);
 
     setGameState(novosValores);
+    mostrarToastMudancas(antigos, novosValores);
     setShowDecisao(false);
   }
 
@@ -663,7 +727,7 @@ export default function JogoQuizEcologico() {
   return (
     <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6 w-full max-w-3xl mx-auto">
       {instrucoes ? (
-        <div className="text-center mb-6 mx-12">
+        <div className="text-center mb-6 mx-2 md:mx-12">
           <h2 className="text-2xl font-bold mb-4 text-green-700 dark:text-green-300">
             Cidade Sustentável
           </h2>
@@ -696,16 +760,16 @@ export default function JogoQuizEcologico() {
           </h2>
           <div className="mb-6 p-4 bg-red-50 dark:bg-red-900 rounded-lg border border-red-200 dark:border-red-700">
             <AlertTriangle className="h-8 w-8 text-red-500 dark:text-red-300 mx-auto mb-2" />
-            <p className="text-lg text-gray-800 dark:text-gray-200">{gameState.mensagemFinal}</p>
+            <p className="text-base md:text-lg text-gray-800 dark:text-gray-200">{gameState.mensagemFinal}</p>
           </div>
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
               <p className="font-semibold text-gray-800 dark:text-gray-200">População final</p>
-              <p className="text-xl text-gray-900 dark:text-gray-100">{gameState.populacao} habitantes</p>
+              <p className="text-base md:text-xl text-gray-900 dark:text-gray-100">{gameState.populacao} habitantes</p>
             </div>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
               <p className="font-semibold text-gray-800 dark:text-gray-200">Índice de Sustentabilidade</p>
-              <p className="text-xl text-gray-900 dark:text-gray-100">{gameState.sustentabilidade}/100</p>
+              <p className="text-base md:text-xl text-gray-900 dark:text-gray-100">{gameState.sustentabilidade}/100</p>
             </div>
           </div>
           <button
@@ -724,7 +788,7 @@ export default function JogoQuizEcologico() {
             <Trophy className="h-8 w-8 text-yellow-500 mx-auto mb-2" />
             <p className="text-lg text-gray-800 dark:text-gray-200">{gameState.mensagemFinal}</p>
           </div>
-          <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
               <p className="font-semibold text-gray-800 dark:text-gray-200">População final</p>
               <p className="text-xl text-gray-900 dark:text-gray-100">{gameState.populacao} habitantes</p>
@@ -754,9 +818,9 @@ export default function JogoQuizEcologico() {
           </button>
         </div>
       ) : (
-        <div className="min-h-[646px]">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+        <div className="min-h-[900px] sm:min-h-[646px]">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+            <h2 className="text-lg md:text-xl font-bold text-gray-900 dark:text-gray-100">
               Cidade Sustentável - Ano {gameState.ano}
             </h2>
             <div className="flex items-center">
@@ -765,8 +829,8 @@ export default function JogoQuizEcologico() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+          <div className="grid grid-cols-6 gap-4 mb-6">
+            <div className="bg-white col-span-3 md:col-span-2 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
               <div className="flex items-center mb-2">
                 <Building className="h-5 w-5 text-blue-600 dark:text-blue-400 mr-2" />
                 <h3 className="font-semibold text-blue-600 dark:text-blue-400">Economia</h3>
@@ -780,7 +844,7 @@ export default function JogoQuizEcologico() {
               <p className="text-right mt-1 text-gray-800 dark:text-gray-200">{gameState.economiaPontos}/100</p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+            <div className="bg-white col-span-3 md:col-span-2 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
               <div className="flex items-center mb-2">
                 <Leaf className="h-5 w-5 text-green-600 dark:text-green-400 mr-2" />
                 <h3 className="font-semibold text-green-600 dark:text-green-400">Ambiente</h3>
@@ -794,7 +858,7 @@ export default function JogoQuizEcologico() {
               <p className="text-right mt-1 text-gray-800 dark:text-gray-200">{gameState.ambientePontos}/100</p>
             </div>
 
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm">
+            <div className="bg-white col-span-6 md:col-span-2 dark:bg-gray-800 p-4 rounded-lg shadow-sm">
               <div className="flex items-center mb-2">
                 <Users className="h-5 w-5 text-purple-600 dark:text-purple-400 mr-2" />
                 <h3 className="font-semibold text-purple-600 dark:text-purple-400">Social</h3>

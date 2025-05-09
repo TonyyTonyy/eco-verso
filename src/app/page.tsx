@@ -56,7 +56,7 @@ export default function Home() {
           />
           <MissionCard
             icon={<Globe className="h-8 w-8 text-blue-500" />}
-            title="Conscientização Global"
+            title="Conscientização"
             description="Os desafios ambientais são de natureza global. Nosso objetivo é promover um senso de cidadania global e responsabilidade compartilhada."
             delay={0.2}
           />
@@ -133,7 +133,7 @@ export default function Home() {
             ))}
         </div>
         <div className="mt-8">
-          <Link href="/articles">
+          <Link href="/artigos">
             <Button>
               Ver Todos os Artigos <ArrowRight className="ml-2 h-4 w-4" />
             </Button>

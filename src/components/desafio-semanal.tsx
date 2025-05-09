@@ -133,8 +133,8 @@ export function DesafioSemanal() {
         </Button>
 
         <div className="flex items-center">
-          <Award className="h-5 w-5 text-yellow-500 mr-2" />
-          <span>50 pontos por resposta correta</span>
+          <Award className="h-5 w-5 text-yellow-500 mr-2 hidden md:block" />
+          <span className="text-sm md:text-base">50 pontos por resposta correta</span>
         </div>
 
         <Button onClick={handleNextQuestion} disabled={currentQuestion === questions.length - 1 || !isAnswered}>
