@@ -29,7 +29,7 @@ export default function AboutPage() {
   const teamMembers = [
     { name: "Camila Áurea Maciel de Souza ", image: "/Person.jpg" },
     { name: "Giovanna Salomão Rodrigues", image: "/Giovanna.jpeg" },
-    { name: "Franklin Ferreira dos santos", image: "/Person.jpg" },
+    { name: "Franklin Ferreira dos santos", image: "/Frank.jpeg" },
     { name: "Tony Cleriston Oliveira dos S. J.", image: "/Tony.jpeg" },
     { name: "Lucas Silva Oliveira", image: "/LucasOliveira.png" },
     { name: "Laysa Lima de Pinho", image: "/Person.jpg" },

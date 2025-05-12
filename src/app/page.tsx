@@ -6,6 +6,7 @@ import { DesafioSemanal } from "@/components/desafio-semanal"
 import Link from "next/link"
 import { ArrowRight, Leaf, Globe, Lightbulb } from "lucide-react"
 import { ArticleCard } from "@/components/article-card"
+import PitchSection from "@/components/pitch-section"
 
 export default function Home() {
   const articles = [
@@ -68,7 +69,7 @@ export default function Home() {
           />
         </div>
       </section>
-
+    <PitchSection />
       <section className="mb-16">
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold mb-4">Desafio Semanal</h2>

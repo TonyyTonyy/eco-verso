@@ -80,6 +80,39 @@ export default function GincanasPage() {
         "Registro e monitoramento científico de mudanças no ambiente",
       ],
     },
+    {
+      title: "Competição de Reciclagem",
+      description:
+        "Uma competição divertida onde equipes coletam e separam materiais recicláveis, aprendendo sobre a importância da gestão adequada de resíduos.",
+      image: "https://escolainfantilflorescer.com.br/site/wp-content/uploads/2019/10/grupo-de-criancas-colegas-aprendizagem-biologia-recicle-ambiente_53876-34451.jpg",
+      ageGroup: "8-15 anos",
+      participants: "Grupos de 4-6 alunos",
+      duration: "90 minutos",
+      materials: [
+        "Luvas descartáveis",
+        "Sacos de lixo coloridos (diferentes cores para cada tipo de material)",
+        "Balança",
+        "Cronômetro",
+        "Placas de identificação (papel, plástico, metal, vidro, orgânico)",
+        "Materiais recicláveis limpos para separação",
+        "Pranchetas e fichas de pontuação",
+      ],
+      steps: [
+        "Organize uma área com estações de coleta identificadas por tipo de material reciclável.",
+        "Divida os alunos em equipes e explique as regras da competição e a pontuação.",
+        "Na primeira fase, as equipes têm tempo determinado para coletar o máximo de materiais recicláveis pela escola/parque.",
+        "Na segunda fase, as equipes devem separar corretamente os materiais nas estações correspondentes.",
+        "Pontue pela quantidade coletada, precisão da separação e velocidade.",
+        "Ao final, pese os materiais e calcule o impacto ambiental positivo da atividade.",
+        "Discuta a importância da reciclagem e como incorporar essas práticas no dia a dia.",
+      ],
+      learningOutcomes: [
+        "Conhecimento sobre tipos de materiais recicláveis e processos de reciclagem",
+        "Desenvolvimento de habilidades de trabalho em equipe e organização",
+        "Conscientização sobre a redução de resíduos e consumo responsável",
+        "Compreensão do impacto ambiental da gestão de resíduos",
+      ],
+    },
   ];
 
   return (
@@ -158,7 +191,7 @@ export default function GincanasPage() {
                   </AccordionItem>
                 </Accordion>
               </CardContent>
-             {/*  <CardFooter>
+              {/*  <CardFooter>
                 <Button className="w-full sm:w-auto">
                   Baixar Guia de Atividade
                 </Button>

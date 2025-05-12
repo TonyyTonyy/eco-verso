@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
       "123ecos.com.br",
       "img.freepik.com",
       "encrypted-tbn0.gstatic.com",
+      "escolainfantilflorescer.com.br",
     ],
   }
 };
