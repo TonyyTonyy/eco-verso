@@ -122,3 +122,16 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Impressão (gincanas em PDF, certificado): esconde navegação global e força fundo claro */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  @page {
+    margin: 1.5cm;
+  }
+}

@@ -1,0 +1,2 @@
+# Projeto isolado — impede o pnpm de usar a pasta Downloads como raiz de workspace.
+packages: []

@@ -3,36 +3,15 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { InteractiveBanner } from "@/components/interactive-banner"
 import { MissionCard } from "@/components/mission-card"
 import { DesafioSemanal } from "@/components/desafio-semanal"
+import { DesafiosComunitarios } from "@/components/desafios-comunitarios"
 import Link from "next/link"
-import { ArrowRight, Leaf, Globe, Lightbulb } from "lucide-react"
+import { ArrowRight, Leaf, Globe, Lightbulb, MapPin } from "lucide-react"
 import { ArticleCard } from "@/components/article-card"
 import PitchSection from "@/components/pitch-section"
+import { articles } from "@/data/articles"
 
 export default function Home() {
-  const articles = [
-    {
-      title: "10 maneiras simples de reduzir a sua pegada de carbono",
-      excerpt:
-        "Descubra ações práticas para diminuir sua pegada de carbono, desde mudanças nos hábitos alimentares até escolhas financeiras conscientes.",
-      image: "https://images.unsplash.com/photo-1506806732259-39c2d0268443",
-      date: "20 de agosto de 2020",
-      author: "Extinction Rebellion",
-      readTime: "5 min de leitura",
-      tags: ["Vida Sustentável", "Ação Climática"],
-      url: "https://rebellion.global/pt/blog/2020/08/20/reduce-your-carbon-footprint/",
-    },
-    {
-      title: "Perda de biodiversidade: causas, consequências e soluções",
-      excerpt:
-        "A perda de biodiversidade ameaça ecossistemas e a sobrevivência humana. Entenda suas causas e como mitigá-la.",
-      image: "https://www.iberdrola.com/documents/20125/41125/PerdidaBiodiversidad_746x419.jpg/beae1e3d-93ac-392c-277e-13f10ea30c6b?t=1628158320684",
-      date: "Data não especificada",
-      author: "Iberdrola",
-      readTime: "8 min de leitura",
-      tags: ["Biodiversidade", "Conservação"],
-      url: "https://www.iberdrola.com/sustentabilidade/perda-de-biodiversidade",
-    },
-  ]
+  const featuredArticles = articles.slice(0, 2)
   return (
     <div className="container mx-auto px-4 py-8">
       <section className="mb-16">
@@ -80,7 +59,37 @@ export default function Home() {
         <DesafioSemanal />
       </section>
 
+      <section className="mb-16">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-4">Desafios da Comunidade</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Metas coletivas que só alcançamos juntos. Registre a sua contribuição e acompanhe a
+            barra coletiva subir!
+          </p>
+        </div>
+        <DesafiosComunitarios />
+      </section>
+
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+        <Card className="border-green-200 dark:border-green-800 bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-950/40 dark:to-emerald-950/40">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <MapPin className="h-5 w-5 text-primary" /> Mapa de Ação Local
+            </CardTitle>
+            <CardDescription>Ecopontos, reciclagem, hortas e eventos perto de você</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="mb-4">
+              Pare de apenas ler sobre sustentabilidade: encontre no mapa onde descartar
+              eletrônicos, participar de hortas comunitárias e mutirões ambientais na sua cidade.
+            </p>
+            <Link href="/mapa">
+              <Button>
+                Explorar o mapa <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle>Recursos Educacionais</CardTitle>
@@ -119,9 +128,9 @@ export default function Home() {
           Mantenha-se atualizado com as últimas notícias e dicas sobre vida sustentável.
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {articles.map((article, index) => (
+        {featuredArticles.map((article) => (
               <ArticleCard
-                key={index}
+                key={article.url}
                 title={article.title}
                 excerpt={article.excerpt}
                 image={article.image}

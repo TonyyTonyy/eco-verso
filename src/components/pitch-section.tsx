@@ -33,8 +33,8 @@ export default function PitchSection() {
         <div className="max-w-4xl mx-auto rounded-xl overflow-hidden shadow-xl bg-white dark:bg-gray-800 relative">
           {!isPlaying ? (
             <div className="relative aspect-video bg-gray-100 dark:bg-gray-700 group cursor-pointer" onClick={startVideo}>
-              {/* Thumbnail do vídeo */}
-              <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: "url('/api/placeholder/640/360')" }}></div>
+              {/* Thumbnail real do vídeo no YouTube */}
+              <div className="absolute inset-0 bg-center bg-cover" style={{ backgroundImage: "url('https://img.youtube.com/vi/XGXQIDZiic8/hqdefault.jpg')" }}></div>
               
               {/* Overlay com botão de play */}
               <div className="absolute inset-0 flex items-center justify-center bg-black/30 group-hover:bg-black/40 transition-all">

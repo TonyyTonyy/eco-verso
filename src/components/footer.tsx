@@ -3,7 +3,7 @@ import { Leaf } from "lucide-react"
 
 export function Footer() {
   return (
-    <footer className="border-t bg-muted/40">
+    <footer className="no-print border-t bg-muted/40">
       <div className="container px-4 py-8 mx-auto">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           <div>
@@ -139,6 +139,11 @@ export function Footer() {
               <li>
                 <Link href="/gincanas" className="text-muted-foreground hover:text-primary">
                   Gincanas Ecológicas
+                </Link>
+              </li>
+              <li>
+                <Link href="/perfil?tab=turmas" className="text-muted-foreground hover:text-primary">
+                  Modo Turma (Professores)
                 </Link>
               </li>
             </ul>

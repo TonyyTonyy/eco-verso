@@ -23,9 +23,11 @@ interface NivelTrofico {
 }
 
 export function JogoEcossistemaEquilibrado() {
-  const { addPoints } = useProgress()
+  const { addPoints, markGameCompleted } = useProgress()
   const [isDragging, setIsDragging] = useState(false)
   const [draggedItem, setDraggedItem] = useState<ElementoItem | null>(null)
+  // Item selecionado por toque/clique (alternativa ao drag & drop em mobile)
+  const [selectedItem, setSelectedItem] = useState<ElementoItem | null>(null)
   const [isComplete, setIsComplete] = useState(false)
   const [feedback, setFeedback] = useState<string | null>(null)
   const dragConstraintsRef = useRef(null)
@@ -61,18 +63,19 @@ export function JogoEcossistemaEquilibrado() {
   }
 
   const handleDrop = (nivelId: string) => {
-    if (!draggedItem) return
+    const item = draggedItem ?? selectedItem
+    if (!item) return
 
-    const correctNivel = draggedItem.nivel === nivelId
+    const correctNivel = item.nivel === nivelId
 
     if (correctNivel) {
       // Atualiza níveis
       setNiveis(
-        niveis.map((nivel) => (nivel.id === nivelId ? { ...nivel, items: [...nivel.items, draggedItem] } : nivel)),
+        niveis.map((nivel) => (nivel.id === nivelId ? { ...nivel, items: [...nivel.items, item] } : nivel)),
       )
 
       // Remove dos itens disponíveis
-      setAvailableItems(availableItems.filter((item) => item.id !== draggedItem.id))
+      setAvailableItems(availableItems.filter((i) => i.id !== item.id))
 
       // Adiciona pontos
       addPoints(50)
@@ -82,10 +85,20 @@ export function JogoEcossistemaEquilibrado() {
       if (availableItems.length === 1) {
         setIsComplete(true)
         addPoints(100) // Pontos bônus por completar
+        markGameCompleted("ecossistema") // Desbloqueia a conquista "Equilibrista Ecológico"
       }
     } else {
       setFeedback("Incorreto! Tente novamente.")
     }
+
+    setSelectedItem(null)
+  }
+
+  // Alternativa ao drag & drop para telas de toque: tocar no item o seleciona
+  const handleItemTap = (item: ElementoItem) => {
+    if (isDragging) return
+    setSelectedItem((prev) => (prev?.id === item.id ? null : item))
+    setFeedback(null)
   }
 
   const resetGame = () => {
@@ -93,6 +106,7 @@ export function JogoEcossistemaEquilibrado() {
     setAvailableItems(elementos)
     setIsComplete(false)
     setFeedback(null)
+    setSelectedItem(null)
   }
 
   return (
@@ -121,10 +135,15 @@ export function JogoEcossistemaEquilibrado() {
         {niveis.map((nivel) => (
           <div
             key={nivel.id}
-            className={`border-2 border-dashed rounded-lg p-4 min-h-[120px] flex flex-col items-center ${
-              isDragging ? "border-primary" : "border-muted"
+            role="button"
+            tabIndex={0}
+            aria-label={`Colocar em ${nivel.label}`}
+            className={`border-2 border-dashed rounded-lg p-4 min-h-[120px] flex flex-col items-center transition-colors cursor-pointer ${
+              isDragging || selectedItem ? "border-primary bg-primary/5" : "border-muted"
             }`}
             onMouseUp={() => handleDrop(nivel.id)}
+            onClick={() => selectedItem && handleDrop(nivel.id)}
+            onKeyDown={(e) => e.key === "Enter" && selectedItem && handleDrop(nivel.id)}
           >
             <h3 className="font-medium mb-2">{nivel.label}</h3>
             <div className="flex flex-wrap gap-2 justify-center">
@@ -149,7 +168,10 @@ export function JogoEcossistemaEquilibrado() {
               dragConstraints={dragConstraintsRef}
               onDragStart={() => handleDragStart(item)}
               onDragEnd={handleDragEnd}
-              className="flex flex-col items-center bg-background p-3 rounded-lg cursor-grab active:cursor-grabbing"
+              onTap={() => handleItemTap(item)}
+              className={`flex flex-col items-center bg-background p-3 rounded-lg cursor-grab active:cursor-grabbing ring-offset-background ${
+                selectedItem?.id === item.id ? "ring-2 ring-primary" : ""
+              }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -161,7 +183,7 @@ export function JogoEcossistemaEquilibrado() {
       </div>
 
       <div className="mt-4 text-center text-sm text-muted-foreground">
-        Arraste cada elemento para seu nível trófico correto na cadeia alimentar
+        Arraste cada elemento para o nível correto, ou toque no elemento e depois no nível
       </div>
     </div>
   )

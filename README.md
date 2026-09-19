@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EcoVerso 🌱
 
-## Getting Started
+Plataforma de **educação ambiental interativa** — aprenda sobre sustentabilidade através de jogos, quizzes e atividades práticas para escolas e comunidades.
 
-First, run the development server:
+## Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Quizzes temáticos** — 6 quizzes (Mudanças Climáticas, Biodiversidade, Energia Renovável, Oceanos, 8 Rs, Cidades Sustentáveis) com pontuação.
+- **Jogos interativos**:
+  - *Cidade Sustentável* — gerencie uma cidade por 10 anos equilibrando economia, ambiente e sociedade.
+  - *Separação de Resíduos* — jogo contra o tempo de triagem de resíduos.
+  - *Ecossistema Equilibrado* — organize os níveis tróficos da cadeia alimentar.
+- **Desafio Semanal** — perguntas com explicações educativas.
+- **Sistema de pontos e medalhas** — progresso persistido localmente (localStorage).
+- **Recursos educacionais** — vídeos e infográficos curados.
+- **Gincanas ecológicas** — atividades práticas passo a passo para escolas.
+- **Tema claro/escuro** — suporte completo a dark mode.
+
+## Stack
+
+- [Next.js 15](https://nextjs.org) (App Router) + [React 19](https://react.dev)
+- [Tailwind CSS 4](https://tailwindcss.com) + [shadcn/ui](https://ui.shadcn.com) (Radix)
+- [Framer Motion](https://motion.dev) para animações
+- TypeScript
+
+## Estrutura
+
+```
+src/
+  app/            # Páginas (App Router)
+  components/     # Componentes React (jogos, cards, UI)
+    ui/           # Componentes shadcn/ui
+  data/           # Conteúdo do site (artigos, quizzes, gincanas, FAQs...)
+  hooks/          # Hooks customizados
+  lib/            # Utilitários
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> **Nota:** todo o conteúdo editorial vive em `src/data/`. Para adicionar um artigo, quiz ou gincana, edite o ficheiro correspondente — sem tocar no JSX das páginas.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Como executar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm install
+pnpm dev
+```
 
-## Learn More
+Abra [http://localhost:3000](http://localhost:3000).
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Comando       | Ação                    |
+| ------------- | ----------------------- |
+| `pnpm dev`    | Servidor de desenvolvimento (Turbopack) |
+| `pnpm build`  | Build de produção       |
+| `pnpm start`  | Servir build de produção |
+| `pnpm lint`   | Linting (ESLint)        |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+O deploy mais simples é na [Vercel](https://vercel.com/new). Consulte a [documentação de deploy do Next.js](https://nextjs.org/docs/app/building-your-application/deploying).

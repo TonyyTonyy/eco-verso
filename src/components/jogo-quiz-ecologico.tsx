@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   PieChart,
   Leaf,
@@ -11,8 +11,12 @@ import {
   RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useProgress } from "@/components/progress-provider";
 
 export default function JogoQuizEcologico() {
+  const { addPoints, markGameCompleted } = useProgress();
+  // Garante que os pontos são creditados apenas uma vez por partida
+  const pontosCreditadosRef = useRef(false);
   const [gameState, setGameState] = useState({
     ano: 1,
     populacao: 500,
@@ -582,6 +586,20 @@ export default function JogoQuizEcologico() {
     gameState.socialPontos,
   ]);
 
+  // Credita pontos ao terminar a partida (vitória = índice de sustentabilidade ×2, derrota = 25 pontos de participação)
+  // A vitória também registra a conclusão do jogo para a conquista "Prefeito Verde"
+  useEffect(() => {
+    if (pontosCreditadosRef.current) return;
+    if (gameState.vitoria) {
+      pontosCreditadosRef.current = true;
+      addPoints(gameState.sustentabilidade * 2);
+      markGameCompleted("cidade-sustentavel");
+    } else if (gameState.gameOver) {
+      pontosCreditadosRef.current = true;
+      addPoints(25);
+    }
+  }, [gameState.vitoria, gameState.gameOver, gameState.sustentabilidade, addPoints, markGameCompleted]);
+
   function calcularSustentabilidade(state: any) {
     return Math.floor(
       (state.ambientePontos + state.economiaPontos + state.socialPontos) / 3
@@ -707,6 +725,7 @@ toast.custom((t: any) => (
   }
 
   function reiniciarJogo() {
+    pontosCreditadosRef.current = false;
     setGameState({
       ano: 1,
       populacao: 500,

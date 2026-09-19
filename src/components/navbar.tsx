@@ -12,6 +12,7 @@ import { Leaf, Menu } from "lucide-react"
 export function Navbar() {
   const pathname = usePathname()
   const [isScrolled, setIsScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,19 +23,22 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  // Fecha o menu mobile sempre que a rota muda
+  useEffect(() => {
+    setMenuOpen(false)
+  }, [pathname])
+
   const routes = [
     { href: "/", label: "Início" },
-    { href: "/sobre", label: "Sobre" },
+    { href: "/explorar", label: "Explorar" },
     { href: "/atividades", label: "Atividades" },
     { href: "/recursos", label: "Recursos" },
-    { href: "/gincanas", label: "Gincanas" },
-    { href: "/artigos", label: "Artigos" },
-    { href: "/contato", label: "Contato" },
+    { href: "/perfil", label: "Perfil" },
   ]
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-200 ${
+      className={`no-print sticky top-0 z-50 w-full transition-all duration-200 ${
         isScrolled ? "bg-background/95 backdrop-blur-sm shadow-sm" : "bg-background"
       }`}
     >
@@ -63,7 +67,7 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           <ProgressIndicator />
           <ModeToggle />
-          <Sheet>
+          <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <Button variant="outline" size="icon" className="md:hidden">
                 <Menu className="h-5 w-5" />

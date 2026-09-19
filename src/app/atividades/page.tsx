@@ -1,64 +1,23 @@
+import type { Metadata } from "next"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { JogoSeparacaoResiduos } from "@/components/jogo-separacao-residuos"
+import { JogoEcossistemaEquilibrado } from "@/components/jogo-ecossistema-equilibrado"
 import { QuizTematico } from "@/components/quiz-tematico"
+import { ProgressSummary } from "@/components/progress-summary"
+import { CalculadoraPegada } from "@/components/calculadora-pegada"
+import { MapaAcaoLocal } from "@/components/mapa-acao-local"
 import Link from "next/link"
 import { ArrowRight, Award, Brain } from "lucide-react"
-import JogoQuizEcologico from "@/components/jogo-quiz-ecologico"
+import { quizzes } from "@/data/quizzes"
+
+export const metadata: Metadata = {
+  title: "Atividades - EcoVerso",
+  description: "Quizzes e jogos interativos sobre sustentabilidade e meio ambiente.",
+}
 
 export default function SustainableActivitiesPage() {
-  const quizzes = [
-    
-    {
-      id: "oitoRs",
-      title: "Os 8 Rs da Sustentabilidade",
-      description: "Descubra o quanto você conhece sobre os princípios dos 8 Rs da sustentabilidade.",
-      difficulty: "Médio",
-      points: 150,
-      icon: "♻️",
-    },
-    {
-      id: "cidadesSustentaveis",
-      title: "Cidades Sustentáveis",
-      description: "Teste seu conhecimento sobre práticas e conceitos de cidades sustentáveis.",
-      difficulty: "Difícil",
-      points: 200,
-      icon: "🏙️",
-    },
-    {
-      id: "clima",
-      title: "Mudanças Climáticas",
-      description: "Teste seus conhecimentos sobre causas e soluções para as mudanças climáticas.",
-      difficulty: "Médio",
-      points: 150,
-      icon: "🌡️",
-    },
-    {
-      id: "biodiversidade",
-      title: "Biodiversidade",
-      description: "Quanto você sabe sobre a incrível biodiversidade da Terra?",
-      difficulty: "Fácil",
-      points: 100,
-      icon: "🦋",
-    },
-    {
-      id: "energia",
-      title: "Energia Renovável",
-      description: "Desafie-se com perguntas sobre fontes de energia renovável.",
-      difficulty: "Difícil",
-      points: 200,
-      icon: "⚡",
-    },
-    {
-      id: "oceanos",
-      title: "Conservação dos Oceanos",
-      description: "Mergulhe fundo no conhecimento sobre conservação dos oceanos.",
-      difficulty: "Médio",
-      points: 150,
-      icon: "🌊",
-    },
-  ]
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -71,9 +30,11 @@ export default function SustainableActivitiesPage() {
       </div>
 
       <Tabs defaultValue="quizzes" className="mb-16">
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="quizzes">Quizzes Temáticos</TabsTrigger>
-          <TabsTrigger value="jogos">Missões Interativas</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-4">
+          <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
+          <TabsTrigger value="jogos">Missões</TabsTrigger>
+          <TabsTrigger value="ferramentas">Ferramentas</TabsTrigger>
+          <TabsTrigger value="acao">Ação Local</TabsTrigger>
         </TabsList>
         <TabsContent value="quizzes" className="pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -92,26 +53,6 @@ export default function SustainableActivitiesPage() {
         </TabsContent>
         <TabsContent value="jogos" className="pt-6">
           <div className="mb-8">
-          <Card className="mb-8">
-              <CardHeader>
-                <CardTitle>Quiz Ecológico Interativo</CardTitle>
-                <CardDescription>
-                  Teste seus conhecimentos sobre meio ambiente e sustentabilidade neste quiz interativo com diferentes
-                  níveis de dificuldade.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <JogoQuizEcologico />
-              </CardContent>
-              <CardFooter>
-                <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center">
-                    <Award className="h-5 w-5 text-yellow-500 mr-2" />
-                    <span>Quanto maior a sustentabilidade, mais pontos!</span>
-                  </div>
-                </div>
-              </CardFooter>
-            </Card>
             <Card className="mb-8">
               <CardHeader>
                 <CardTitle>Separação de Resíduos</CardTitle>
@@ -132,7 +73,48 @@ export default function SustainableActivitiesPage() {
                 </div>
               </CardFooter>
             </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Ecossistema Equilibrado</CardTitle>
+                <CardDescription>
+                  Organize os elementos da natureza nos níveis tróficos corretos e construa um ecossistema
+                  equilibrado.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <JogoEcossistemaEquilibrado />
+              </CardContent>
+              <CardFooter>
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center">
+                    <Award className="h-5 w-5 text-yellow-500 mr-2" />
+                    <span>50 pontos por acerto + 100 de bônus ao completar!</span>
+                  </div>
+                </div>
+              </CardFooter>
+            </Card>
           </div>
+        </TabsContent>
+        <TabsContent value="ferramentas" className="pt-6">
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-bold mb-2">🌍 Calculadora de Pegada de Carbono</h2>
+              <p className="text-muted-foreground">
+                Responda 8 perguntas rápidas, descubra as suas emissões anuais e ganhe 75 pontos na
+                primeira conclusão.
+              </p>
+            </div>
+            <CalculadoraPegada />
+          </div>
+        </TabsContent>
+        <TabsContent value="acao" className="pt-6">
+          <div className="text-center mb-6">
+            <h2 className="text-2xl font-bold mb-2">🗺️ Mapa de Ação Local</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Ecopontos, reciclagem, hortas comunitárias e eventos ambientais perto de você.
+            </p>
+          </div>
+          <MapaAcaoLocal />
         </TabsContent>
       </Tabs>
 
@@ -148,32 +130,7 @@ export default function SustainableActivitiesPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium">Quizzes Completados</span>
-                  <span className="text-sm font-medium">2/6</span>
-                </div>
-                <div className="w-full bg-muted rounded-full h-2.5">
-                  <div className="bg-green-500 h-2.5 rounded-full" style={{ width: "20%" }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium">Missões Interativas Completadas</span>
-                  <span className="text-sm font-medium">1/2</span>
-                </div>
-                <div className="w-full bg-muted rounded-full h-2.5">
-                  <div className="bg-green-500 h-2.5 rounded-full" style={{ width: "50%" }}></div>
-                </div>
-              </div>
-              <div>
-                <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium">Total de Pontos Ganhos</span>
-                  <span className="text-sm font-medium">250</span>
-                </div>
-              </div>
-            </div>
+            <ProgressSummary />
           </CardContent>
         </Card>
       </section>

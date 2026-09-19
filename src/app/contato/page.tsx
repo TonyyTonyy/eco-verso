@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -5,37 +6,15 @@ import { Textarea } from "@/components/ui/textarea"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Mail, MessageSquare, HelpCircle } from "lucide-react"
+import { MessageSquare, HelpCircle } from "lucide-react"
+import { faqs } from "@/data/faqs"
+
+export const metadata: Metadata = {
+  title: "Contato - EcoVerso",
+  description: "Tem perguntas, sugestões ou quer colaborar com o EcoVerso? Entre em contato.",
+}
 
 export default function ContactPage() {
-  const faqs = [
-    {
-      question: "Como posso implementar as atividades do EcoVerso em minha sala de aula?",
-      answer:
-        "Nossas atividades são projetadas para serem facilmente integradas aos currículos existentes. Você pode baixar nossos guias para educadores na seção de Recursos Educacionais, que fornecem instruções detalhadas para implementação. Também oferecemos workshops virtuais para professores - entre em contato para mais informações.",
-    },
-    {
-      question: "Vocês oferecem apresentações ou workshops para escolas?",
-      answer:
-        "Sim! Oferecemos workshops virtuais e presenciais para escolas, grupos comunitários e organizações. Por favor, preencha o formulário de contato com suas necessidades específicas e entraremos em contato com as opções.",
-    },
-    {
-      question: "Como posso contribuir para o EcoVerso?",
-      answer:
-        "Recebemos contribuições de educadores, especialistas ambientais e criadores de conteúdo. Se você tem ideias para atividades, artigos ou recursos, entre em contato através do nosso formulário. Também aceitamos doações para apoiar nossa missão de fornecer educação ambiental gratuita.",
-    },
-    {
-      question: "Seus recursos estão disponíveis em outros idiomas além do português?",
-      answer:
-        "Estamos trabalhando na tradução de nossos recursos principais para vários idiomas. Atualmente, alguns materiais estão disponíveis em inglês e espanhol. Estamos buscando voluntários para ajudar com traduções - entre em contato se estiver interessado em contribuir.",
-    },
-    {
-      question: "Posso usar os materiais do EcoVerso para meus próprios fins educacionais?",
-      answer:
-        "Sim! Nossos recursos estão disponíveis sob uma licença Creative Commons, o que significa que você pode usá-los e adaptá-los para fins educacionais não comerciais com atribuição ao EcoVerso. Para uso comercial, entre em contato conosco diretamente.",
-    },
-  ]
-
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="text-center mb-12">
@@ -45,7 +24,7 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 mb-16">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16 items-start">
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -113,37 +92,26 @@ export default function ContactPage() {
           </CardFooter>
         </Card>
 
-       {/*  <div className="space-y-8">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2" />
-                Perguntas Frequentes
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Accordion type="single" collapsible className="w-full">
-                {faqs.map((faq, index) => (
-                  <AccordionItem key={index} value={`item-${index}`}>
-                    <AccordionTrigger>{faq.question}</AccordionTrigger>
-                    <AccordionContent>{faq.answer}</AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
-            </CardContent>
-          </Card>
-        </div> */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <HelpCircle className="h-5 w-5 mr-2" />
+              Perguntas Frequentes
+            </CardTitle>
+            <CardDescription>Respostas para as dúvidas mais comuns sobre o EcoVerso.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`}>
+                  <AccordionTrigger>{faq.question}</AccordionTrigger>
+                  <AccordionContent>{faq.answer}</AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
       </div>
-
-     {/*  <section className="text-center">
-        <h2 className="text-2xl font-bold mb-4">Junte-se à Nossa Comunidade</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto mb-6">
-          Conecte-se com outros educadores e entusiastas ambientais para compartilhar ideias e recursos.
-        </p>
-        <Button size="lg" variant="outline">
-          Participe do Nosso Fórum
-        </Button>
-      </section> */}
     </div>
   )
 }

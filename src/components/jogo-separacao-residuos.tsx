@@ -34,21 +34,28 @@ export function JogoSeparacaoResiduos() {
   const [timeLeft, setTimeLeft] = useState(10)
   const [items, setItems] = useState(() => shuffleArray(residuos))
 
+  // O timer pausa quando já há uma resposta selecionada (evita avanço duplo de rodada)
   useEffect(() => {
-    if (timeLeft > 0 && !gameOver) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
+    if (gameOver || selected) return
+    if (timeLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft((t) => t - 1), 1000)
       return () => clearTimeout(timer)
     }
-    if (timeLeft === 0) handleTimeout()
-  }, [timeLeft, gameOver])
+    handleTimeout()
+  }, [timeLeft, gameOver, selected])
 
   function shuffleArray<T>(arr: T[]): T[] {
     return [...arr].sort(() => Math.random() - 0.5)
   }
 
+  function tipoLabel(tipo: string) {
+    return lixeiras.find((l) => l.id === tipo)?.label ?? tipo
+  }
+
   function handleTimeout() {
-    setFeedback(`Tempo esgotado! Era ${items[currentIndex].tipo}.`)
-    nextRound()
+    setFeedback(`Tempo esgotado! Era ${tipoLabel(items[currentIndex].tipo)}.`)
+    setSelected("__timeout__")
+    setTimeout(nextRound, 1500)
   }
 
   function handleSelect(tipo: string) {
@@ -58,10 +65,10 @@ export function JogoSeparacaoResiduos() {
     const pts = correct ? 50 + timeLeft * 5 : 0
     if (correct) {
       addPoints(pts)
-      setScore(s => s + pts)
+      setScore((s) => s + pts)
       setFeedback(`+${pts} pontos!`)
     } else {
-      setFeedback(`Errado! Era ${items[currentIndex].tipo}.`)
+      setFeedback(`Errado! Era ${tipoLabel(items[currentIndex].tipo)}.`)
     }
     setTimeout(nextRound, 1500)
   }
@@ -92,18 +99,18 @@ export function JogoSeparacaoResiduos() {
   const Icon = current.icon
 
   return (
-    <div className="max-w-lg mx-auto space-y-6 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 p-4 rounded-lg">
+    <div className="max-w-lg mx-auto space-y-6">
 
       <div className="flex justify-between items-center">
-        <Badge className="dark:border-gray-700 dark:text-gray-200 bg-green-700">Score: {score}</Badge>
-        <Badge className="dark:border-gray-700 dark:text-gray-200 bg-green-700">Round: {currentIndex + 1}/{items.length}</Badge>
+        <Badge variant="secondary">Pontos: {score}</Badge>
+        <Badge variant="secondary">Rodada: {Math.min(currentIndex + 1, items.length)}/{items.length}</Badge>
       </div>
 
       {!gameOver ? (
         <>
-          <Progress value={(timeLeft / 10) * 100} className="h-2 bg-gray-200 dark:bg-gray-700" />
+          <Progress value={(timeLeft / 10) * 100} className="h-2" />
 
-          <Card className="p-6 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-700 dark:to-gray-800 rounded-2xl shadow-lg">
+          <Card className="p-6">
             <CardContent className="flex flex-col items-center">
               <motion.div
                 key={current.id}
@@ -115,20 +122,20 @@ export function JogoSeparacaoResiduos() {
                 <Icon size={72} color={current.color} />
               </motion.div>
               <h2 className="text-2xl font-semibold mt-4">{current.label}</h2>
-              <p className="text-sm mt-2 text-muted-foreground dark:text-gray-400">Selecione a lixeira correta</p>
+              <p className="text-sm mt-2 text-muted-foreground">Selecione a lixeira correta</p>
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {lixeiras.map((lix) => (
               <Button
                 key={lix.id}
                 variant={selected === lix.id ? "default" : "outline"}
                 onClick={() => handleSelect(lix.id)}
                 disabled={!!selected}
-                className={`flex flex-row items-center gap-2 py-4 rounded-xl border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 ${selected === lix.id ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
+                className="flex flex-row items-center gap-2 py-4"
               >
-                <lix.icon className="" size={32} />
+                <lix.icon size={32} />
                 {lix.label}
               </Button>
             ))}
@@ -152,11 +159,11 @@ export function JogoSeparacaoResiduos() {
           </AnimatePresence>
         </>
       ) : (
-        <Card className="p-6 bg-green-50 dark:bg-green-900 rounded-2xl shadow-lg">
+        <Card className="p-6 border-green-200 dark:border-green-800">
           <CardContent className="flex flex-col items-center">
             <h2 className="text-3xl font-bold mb-4">Fim de Jogo!</h2>
             <p className="text-lg mb-6">Você fez {score} pontos.</p>
-            <Button onClick={reset} className="">Jogar Novamente</Button>
+            <Button onClick={reset}>Jogar Novamente</Button>
           </CardContent>
         </Card>
       )}
